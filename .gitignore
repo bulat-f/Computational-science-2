@@ -1,0 +1,23 @@
+# vim
+*.swp
+~*
+
+# python
+/env/
+__*__
+
+# LaTeX
+*.log
+*.gz
+*.aux
+*.pdf
+
+# automatic genrating files
+/tex/taylor.tex
+/tex/lagrange_errors.tex
+/tex/lagrange_max_error.tex
+/tex/derivative_of_lagrange_max_error.tex
+/tex/derivative_errors.tex
+/tex/integral.tex
+/tex/inverse.tex
+/tex/*.png
