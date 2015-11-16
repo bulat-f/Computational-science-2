@@ -2,6 +2,10 @@
 *.swp
 ~*
 
+# sources compiling results
+main
+*.o
+
 # python
 /env/
 __*__
@@ -21,3 +25,7 @@ __*__
 /tex/integral.tex
 /tex/inverse.tex
 /tex/*.png
+
+# i/o files
+*.in
+*.out
