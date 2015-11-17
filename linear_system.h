@@ -4,7 +4,6 @@
 #include <iostream>
 #include "matrix.h"
 #include "vector.h"
-#include "complex.h"
 
 namespace KFU
 {
@@ -12,6 +11,7 @@ namespace KFU
 	{
 		public:
 			LinearSystem();
+			LinearSystem(int);
 			LinearSystem(int, int);
 			LinearSystem(const Matrix<double>&, const Vector<double>&);
 			LinearSystem(const LinearSystem&);

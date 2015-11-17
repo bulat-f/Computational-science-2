@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include "vector.h"
+#include "helpers.h"
 
 
 namespace KFU
@@ -22,6 +23,7 @@ namespace KFU
 	{
 		public:
 			Matrix();
+			Matrix(int);
 			Matrix(int, int);
 			Matrix(type **, const int &, const int &);
 			Matrix(const Matrix &);
@@ -33,12 +35,16 @@ namespace KFU
 
 			void resize(int, int);
 			void swap_lines(int, int);
+			void generate();
 
 			Matrix& operator=(const Matrix&);
 			Vector<type>& operator*(const Vector<type>&);
 			Vector<type>& operator[](int);
 		private:
 			Vector<Vector<type>> values;
+
+			double a(int);
+
 			friend std::ostream& operator<<<type>(std::ostream&, const Matrix&);
 			friend std::istream& operator>><type>(std::istream&, Matrix&);
 	};
@@ -47,6 +53,12 @@ namespace KFU
 	Matrix<type>::Matrix(): values()
 	{
 	}
+
+	template <class type>
+	Matrix<type>::Matrix(int n): values(n, Vector<type>(n))
+	{
+	}
+
 
 	template <class type>
 	Matrix<type>::Matrix(int rows, int columns): values(rows, Vector<type>(columns))
@@ -102,6 +114,19 @@ namespace KFU
 	}
 
 	template <class type>
+	void Matrix<type>::generate()
+	{
+		int n = rows();
+		values[0][0] = values[n - 1][n - 1] = 1;
+		for (int i = 1; i < n - 1; i++)
+		{
+			values[i][i - 1] = -a(i);
+			values[i][i] = a(i) + a(i + 1) + helpers::g(i) * pow(helpers::h(rows()), 2);
+			values[i][i + 1] = -a(i + 1);
+		}
+	}
+
+	template <class type>
 	Matrix<type>& Matrix<type>::operator=(const Matrix& other)
 	{
 		values = other.values;
@@ -123,6 +148,12 @@ namespace KFU
 	Vector<type>& Matrix<type>::operator[](int i)
 	{
 		return values[i];
+	}
+
+	template <class type>
+	double Matrix<type>::a(int i)
+	{
+		return helpers::p(i * helpers::h(rows()));
 	}
 
 	template <class type>

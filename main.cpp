@@ -7,9 +7,7 @@ using namespace std;
 int main()
 {
 	ifstream in("input.in");
-	KFU::LinearSystem S(3, 3);
-	in >> S;
-	cout << S.solve2();
-	cout << S.solve();
+	KFU::LinearSystem S(11);
+	cout << S;
 	return 0;
 }

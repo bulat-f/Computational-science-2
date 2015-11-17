@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include "helpers.h"
 
 namespace KFU
 {
@@ -41,6 +42,7 @@ namespace KFU
 
 			void resize(int);
 			void swap(int, int);
+			void generate();
 
 			Vector& swap(Vector&);
 
@@ -130,6 +132,16 @@ namespace KFU
 		typename std::vector<type>::iterator first = values.begin() + i;
 		typename std::vector<type>::iterator second = values.begin() + j;
 		std::swap_ranges(first, first + 1, second);
+	}
+
+	template <class type>
+	void Vector<type>::generate()
+	{
+		values[0] = values[size() - 1] = 0;
+		for (int i = 1; i < size() - 1; i++)
+		{
+			values[i] = helpers::f(i, size()) * pow(helpers::h(size()), 2);
+		}
 	}
 
 	template <class type>
