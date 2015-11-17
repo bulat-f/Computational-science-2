@@ -22,10 +22,15 @@ namespace KFU
 			void swap_lines(int, int);
 
 			Vector<double> solve();
-			Vector<double> solve2(double = 1e-5);
+			Vector<double> jacobi(double = 1e-5);
+			Vector<double> seidel(double = 1e-5);
 		private:
 			Vector<double> vector_;
 			Matrix<double> matrix_;
+
+			Vector<double> next_jacobi(Vector<double>&);
+			Vector<double> next_seidel(Vector<double>&);
+
 			friend std::ostream& operator<<(std::ostream&, LinearSystem&);
 			friend std::istream& operator>>(std::istream&, LinearSystem&);
 	};

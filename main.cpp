@@ -8,6 +8,8 @@ int main()
 {
 	ifstream in("input.in");
 	KFU::LinearSystem S(11);
-	cout << S;
+	cout << "True solution\n" << S.solve();
+	cout << "Jacobi method\n" << S.jacobi();
+	cout << "Seidel method\n" << S.seidel();
 	return 0;
 }

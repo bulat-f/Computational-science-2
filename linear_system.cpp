@@ -82,18 +82,58 @@ namespace KFU
 		return result;
 	}
 
-	Vector<double> LinearSystem::solve2(double eps)
+	Vector<double> LinearSystem::jacobi(double eps)
 	{
 		const int size = variables();
-		Vector<double> next(size), current(size), r(size);
-		double tau;
+		Vector<double> next(size), current(size);
 		do
 		{
 			current = next;
-			r = matrix_ * current - vector_;
-			tau = ((matrix_ * r) * r) / (matrix_ * r).sqr();
-			next = current - r * tau;
-		} while (r.norm() > eps);
+			next = next_jacobi(current);
+		} while ((next - current).norm() > eps);
+		return next;
+	}
+
+	Vector<double> LinearSystem::seidel(double eps)
+	{
+		const int size = variables();
+		Vector<double> next(size), current(size);
+		do
+		{
+			current = next;
+			next = next_seidel(current);
+		} while ((next - current).norm() > eps);
+		return next;
+	}
+
+	Vector<double> LinearSystem::next_jacobi(Vector<double>& current)
+	{
+		const int size = variables();
+		Vector<double> next(size);
+		for (int i = 0; i < size; i++)
+		{
+			next[i] += vector_[i];
+			for (int j = 0; j < size; j++)
+				if (i != j) next[i] -= matrix_[i][j] * current[j];
+			next[i] /= matrix_[i][i];
+		}
+		return next;
+	}
+
+	Vector<double> LinearSystem::next_seidel(Vector<double>& current)
+	{
+		const int size = variables();
+		Vector<double> next(size);
+		for (int i = 0; i < size; i++)
+		{
+			next[i] += vector_[i];
+			for (int j = 0; j < size; j++)
+				if (j < i)
+					next[i] -= matrix_[i][j] * next[j];
+				else if (j > i)
+					next[i] -= matrix_[i][j] * current[j];
+			next[i] /= matrix_[i][i];
+		}
 		return next;
 	}
 
