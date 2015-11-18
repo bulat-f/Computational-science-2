@@ -106,6 +106,18 @@ namespace KFU
 		return next;
 	}
 
+	Vector<double> LinearSystem::relaxation(double eps, double omega)
+	{
+		const int size = variables();
+		Vector<double> next(size), current(size);
+		do
+		{
+			current = next;
+			next = next_relaxation(current, omega);
+		} while ((next - current).norm() > eps);
+		return next;
+	}
+
 	Vector<double> LinearSystem::next_jacobi(Vector<double>& current)
 	{
 		const int size = variables();
@@ -133,6 +145,25 @@ namespace KFU
 				else if (j > i)
 					next[i] -= matrix_[i][j] * current[j];
 			next[i] /= matrix_[i][i];
+		}
+		return next;
+	}
+
+	Vector<double> LinearSystem::next_relaxation(Vector<double>& current, const double omega)
+	{
+		const int size = variables();
+		Vector<double> next(size);
+		for (int i = 0; i < size; i++)
+		{
+			next[i] += vector_[i];
+			for (int j = 0; j < size; j++)
+				if (j < i)
+					next[i] -= matrix_[i][j] * next[j];
+				else if (j > i)
+					next[i] -= matrix_[i][j] * current[j];
+			next[i] /= matrix_[i][i];
+			next[i] *= omega;
+			next[i] += (1 - omega) * current[i];
 		}
 		return next;
 	}

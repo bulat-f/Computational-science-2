@@ -24,12 +24,14 @@ namespace KFU
 			Vector<double> solve();
 			Vector<double> jacobi(double = 1e-5);
 			Vector<double> seidel(double = 1e-5);
+			Vector<double> relaxation(double = 1e-5, double = 1.5);
 		private:
 			Vector<double> vector_;
 			Matrix<double> matrix_;
 
 			Vector<double> next_jacobi(Vector<double>&);
 			Vector<double> next_seidel(Vector<double>&);
+			Vector<double> next_relaxation(Vector<double>&, const double);
 
 			friend std::ostream& operator<<(std::ostream&, LinearSystem&);
 			friend std::istream& operator>>(std::istream&, LinearSystem&);
