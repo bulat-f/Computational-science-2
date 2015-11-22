@@ -10,3 +10,6 @@ Course work on Scientific Computing (4-th course)
 3. [Successive over-relaxation](https://en.wikipedia.org/wiki/Successive_over-relaxation)
 4. [Tridiagonal matrix algorithm](https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm)
 
+### Passing options
+**--epsilon=1e-6** pass value of epsilon for *all iteration methods*.
+**--omega=1.8** pass value of omega for *relaxation method*.
