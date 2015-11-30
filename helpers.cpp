@@ -6,7 +6,7 @@ namespace helpers
 {
 	double h(int n)
 	{
-		return 1 / (double) (n - 1);
+		return 1 / (double) n;
 	}
 
 	double u(double x)

@@ -137,10 +137,9 @@ namespace KFU
 	template <class type>
 	void Vector<type>::generate()
 	{
-		values[0] = values[size() - 1] = 0;
-		for (int i = 1; i < size() - 1; i++)
+		for (int i = 0; i < size(); i++)
 		{
-			values[i] = helpers::f(i, size()) * pow(helpers::h(size()), 2);
+			values[i] = helpers::f(i, size() + 1) * pow(helpers::h(size() + 1), 2);
 		}
 	}
 

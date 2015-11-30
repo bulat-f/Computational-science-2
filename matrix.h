@@ -116,14 +116,15 @@ namespace KFU
 	template <class type>
 	void Matrix<type>::generate()
 	{
-		int n = rows();
-		values[0][0] = values[n - 1][n - 1] = 1;
-		for (int i = 1; i < n - 1; i++)
+		const int n = rows();
+		for (int i = 0; i < n - 1; i++)
 		{
-			values[i][i - 1] = -a(i);
-			values[i][i] = a(i) + a(i + 1) + helpers::g(i) * pow(helpers::h(rows()), 2);
+			values[i + 1][i] = -a(i);
+			values[i][i] = a(i) + a(i + 1) + helpers::g(i) * pow(helpers::h(n + 1), 2);
 			values[i][i + 1] = -a(i + 1);
 		}
+		int i = n - 1;
+		values[i][i] = a(i) + a(i + 1) + helpers::g(i) * pow(helpers::h(n + 1), 2);
 	}
 
 	template <class type>
@@ -153,7 +154,7 @@ namespace KFU
 	template <class type>
 	double Matrix<type>::a(int i)
 	{
-		return helpers::p(i * helpers::h(rows()));
+		return helpers::p(i * helpers::h(rows() + 1));
 	}
 
 	template <class type>

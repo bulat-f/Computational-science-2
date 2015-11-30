@@ -8,12 +8,13 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	KFU::LinearSystem S(11);
+	int n = 10;
 	double epsilon = 1e-4, omega = 1.5;
 
-	const char *short_options = "eo";
+	const char *short_options = "neo";
 
 	const struct option long_options[] = {
+		{ "numbers", required_argument, NULL, 'n' },
 		{ "epsilon", required_argument, NULL, 'e' },
 		{ "omega", required_argument, NULL, 'o' },
 		{ NULL, no_argument, NULL, 0 }
@@ -25,6 +26,9 @@ int main(int argc, char *argv[])
 	{
 		switch (result)
 		{
+			case 'n':
+				if (optarg != NULL) n = atoi(optarg);
+				break;
 			case 'e':
 				if (optarg != NULL) epsilon = atof(optarg);
 				break;
@@ -33,6 +37,8 @@ int main(int argc, char *argv[])
 				break;
 		}
 	}
+
+	KFU::LinearSystem S(n - 1);
 
 	cout << "True solution\n" << S.solve();
 	cout << "Jacobi method\n" << S.jacobi(epsilon);
