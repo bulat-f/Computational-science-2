@@ -44,6 +44,21 @@ namespace KFU
 		return matrix_.columns();
 	}
 
+	int LinearSystem::get_jacobi_counter() const
+	{
+		return jacobi_counter;
+	}
+
+	int LinearSystem::get_seidel_counter() const
+	{
+		return seidel_counter;
+	}
+
+	int LinearSystem::get_relaxation_counter() const
+	{
+		return relaxation_counter;
+	}
+
 	void LinearSystem::swap_lines(int i, int j)
 	{
 		matrix_.swap_lines(i, j);
@@ -85,36 +100,45 @@ namespace KFU
 	Vector<double> LinearSystem::jacobi(double eps)
 	{
 		const int size = variables();
+		int counter = 0;
 		Vector<double> next(size), current(size);
 		do
 		{
+			counter++;
 			current = next;
 			next = next_jacobi(current);
 		} while ((next - current).norm() > eps);
+		jacobi_counter = counter;
 		return next;
 	}
 
 	Vector<double> LinearSystem::seidel(double eps)
 	{
 		const int size = variables();
+		int counter = 0;
 		Vector<double> next(size), current(size);
 		do
 		{
+			counter++;
 			current = next;
 			next = next_seidel(current);
 		} while ((next - current).norm() > eps);
+		seidel_counter = counter;
 		return next;
 	}
 
 	Vector<double> LinearSystem::relaxation(double eps, double omega)
 	{
 		const int size = variables();
+		int counter = 0;
 		Vector<double> next(size), current(size);
 		do
 		{
+			counter++;
 			current = next;
 			next = next_relaxation(current, omega);
 		} while ((next - current).norm() > eps);
+		relaxation_counter = counter;
 		return next;
 	}
 

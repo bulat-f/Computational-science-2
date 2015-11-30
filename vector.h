@@ -39,6 +39,7 @@ namespace KFU
 
 			double norm() const;
 			double sqr() const;
+			double abs_max() const;
 
 			void resize(int);
 			void swap(int, int);
@@ -117,6 +118,16 @@ namespace KFU
 		for (int i = 0; i < size(); i++)
 			result += values[i] * values[i];
 
+		return result;
+	}
+
+	template <class type>
+	double Vector<type>::abs_max() const
+	{
+		double result = fabs(values[0]);
+		for (int i = 1; i < size(); i++)
+			if (fabs(values[i]) > result)
+				result = fabs(values[i]);
 		return result;
 	}
 

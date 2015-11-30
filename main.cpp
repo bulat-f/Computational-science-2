@@ -39,10 +39,14 @@ int main(int argc, char *argv[])
 	}
 
 	KFU::LinearSystem S(n - 1);
+	KFU::Vector<double> true_solution =S.solve();
 
-	cout << "True solution\n" << S.solve();
-	cout << "Jacobi method\n" << S.jacobi(epsilon);
-	cout << "Seidel method\n" << S.seidel(epsilon);
-	cout << "Relaxation method\n" << S.relaxation(epsilon, omega);
+	KFU::Vector<double> jacobi = S.jacobi(epsilon);
+	KFU::Vector<double> seidel = S.seidel(epsilon);
+	KFU::Vector<double> relaxation = S.relaxation(epsilon, omega);
+
+	cout << "Jacobi method =>\n" << (true_solution - jacobi).abs_max() << endl << S.get_jacobi_counter() << endl;
+	cout << "Seidel method =>\n" << (true_solution - seidel).abs_max() << endl << S.get_seidel_counter() << endl;
+	cout << "Relaxation method =>\n" << (true_solution - relaxation).abs_max() << endl << S.get_relaxation_counter() << endl;
 	return 0;
 }
