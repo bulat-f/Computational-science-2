@@ -29,3 +29,5 @@ __*__
 # i/o files
 *.in
 *.out
+
+*__gen.tex

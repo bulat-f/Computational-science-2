@@ -42,13 +42,14 @@ def get_iterations(arr):
 
 
 # formulagte report files
-def epsilon(arr):
+def epsilon():
+    arr = read_form_file('epsilon.in');
     epsilon_helper(arr, 'jacobi', 0)
     epsilon_helper(arr, 'seidel', 1)
     epsilon_helper(arr, 'relaxation', 2)
 
 def epsilon_helper(arr, name, num):
-    out = open('./tex/' + name + '_epsilon.tex', 'w')
+    out = open('./tex/' + name + '_epsilon__gen.tex', 'w')
     n = len(arr)
     header = []
     for i in range(1, 7):
@@ -70,7 +71,7 @@ def epsilon_helper(arr, name, num):
 
     out.write('\\end{tabular}\n\n')
 
-    iterations_graphic = name + '_iterations.png'
+    iterations_graphic = name + '_epsilon_iterations.png'
     out.write('\\includegraphics{' + iterations_graphic + '}')
 
     str_nodes = []
@@ -78,6 +79,40 @@ def epsilon_helper(arr, name, num):
         str_nodes.append(i)
 
     grapthic_helper(iterations_graphic, str_nodes, iterations)
+
+def dimension():
+    arr = read_form_file('dimension.in');
+    dimension_helper(arr, 'jacobi', 0)
+    dimension_helper(arr, 'seidel', 1)
+    dimension_helper(arr, 'relaxation', 2)
+
+def dimension_helper(arr, name, num):
+    out = open('./tex/' + name + '_dimension__gen.tex', 'w')
+    n = len(arr)
+    header = []
+    for i in range(10, 110, 10):
+        header.append(str(i))
+    method = prepare_array(arr, num)
+
+    deltas = get_delta(method)
+    iterations = get_iterations(method)
+
+    out.write('\\begin{tabular}{|c|' + 'c'*(n) + '|}\n')
+
+    out.write('\hline\n')
+    write_tab_line(['N'] + header, out)
+    out.write('\hline\n')
+    write_tab_line(['\Delta'] + deltas, out)
+    out.write('\hline\n')
+    write_tab_line(['k'] + iterations, out)
+    out.write('\hline\n')
+
+    out.write('\\end{tabular}\n\n')
+
+    iterations_graphic = name + '_dimension_iterations.png'
+    out.write('\\includegraphics{' + iterations_graphic + '}')
+
+    grapthic_helper(iterations_graphic, header, iterations)
 
 def grapthic_helper(file_name, str_nodes, str_values):
     nodes = []
@@ -94,11 +129,10 @@ def grapthic_helper(file_name, str_nodes, str_values):
     plt.savefig('./tex/' + file_name)
 
 def create():
-    epsilon_arr = read_form_file('epsilon.in');
     print('Change epsilon...')
-    epsilon(epsilon_arr)
+    epsilon()
     print('Done')
-    # print('Change dimension...')
-    # dimension()
-    # print('Done\n==============')
+    print('Change dimension...')
+    dimension()
+    print('Done\n==============')
     print('All parts of report done. Please, run `ptflatex main.tex` for get report in pdf format.')
