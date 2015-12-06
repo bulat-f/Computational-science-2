@@ -22,16 +22,22 @@ def read_form_file(file_name):
         index += 1;
     return arr
 
+def formatting(digit, rounding):
+    if rounding > 0:
+        flag = '%.' + str(rounding) + 'f'
+        digit = flag % float(digit)
+    return str(digit)
+
 def prepare_array(arr, pointer):
     new_arr = []
     for group in arr:
         new_arr.append(group[pointer])
     return new_arr
 
-def get_delta(arr):
+def get_delta(arr, rounding = 0):
     deltas = []
     for group in arr:
-        deltas.append(group[0])
+        deltas.append(formatting(group[0], rounding))
     return deltas
 
 def get_iterations(arr):
@@ -94,7 +100,7 @@ def dimension_helper(arr, name, num):
         header.append(str(i))
     method = prepare_array(arr, num)
 
-    deltas = get_delta(method)
+    deltas = get_delta(method, 5)
     iterations = get_iterations(method)
 
     out.write('\\begin{tabular}{|c|' + 'c'*(n) + '|}\n')
