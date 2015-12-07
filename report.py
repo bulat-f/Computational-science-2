@@ -120,6 +120,38 @@ def dimension_helper(arr, name, num):
 
     grapthic_helper(iterations_graphic, header, iterations)
 
+def omega():
+    arr = read_form_file('omega.in');
+    omega_helper(arr)
+
+def omega_helper(arr):
+    out = open('./tex/omega__gen.tex', 'w')
+    n = len(arr)
+    header = []
+    for i in range(10, 20):
+        header.append(str(i / 10))
+    method = prepare_array(arr, 2)
+
+    deltas = get_delta(method, 5)
+    iterations = get_iterations(method)
+
+    out.write('\\begin{tabular}{|c|' + 'c'*(n) + '|}\n')
+
+    out.write('\hline\n')
+    write_tab_line(['\omega'] + header, out)
+    out.write('\hline\n')
+    write_tab_line(['\Delta'] + deltas, out)
+    out.write('\hline\n')
+    write_tab_line(['k'] + iterations, out)
+    out.write('\hline\n')
+
+    out.write('\\end{tabular}\n\n')
+
+    iterations_graphic = 'omega_iterations.png'
+    out.write('\\includegraphics{' + iterations_graphic + '}')
+
+    grapthic_helper(iterations_graphic, header, iterations)
+
 def grapthic_helper(file_name, str_nodes, str_values):
     nodes = []
     for node in str_nodes:
@@ -140,5 +172,8 @@ def create():
     print('Done')
     print('Change dimension...')
     dimension()
+    print('Done')
+    print('Change omega...')
+    omega()
     print('Done\n==============')
     print('All parts of report done. Please, run `ptflatex main.tex` for get report in pdf format.')
