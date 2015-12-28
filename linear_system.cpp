@@ -142,6 +142,15 @@ namespace KFU
 		return next;
 	}
 
+
+	Vector<double> LinearSystem::tridiagonal()
+	{
+		const int size = variables();
+		int counter = 0;
+		Vector<double> result(size);
+		return result;
+	}
+
 	Vector<double> LinearSystem::next_jacobi(Vector<double>& current)
 	{
 		const int size = variables();
