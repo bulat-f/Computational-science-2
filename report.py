@@ -16,9 +16,9 @@ def read_form_file(file_name):
     arr = []
     index = 0
     for line in file:
-        if index % 6 == 0:
-            arr.append([[], [], []])
-        arr[int(index / 6)][int((index % 6) / 2)].append(line)
+        if index % 8 == 0:
+            arr.append([[], [], [], []])
+        arr[int(index / 8)][int((index % 8) / 2)].append(line)
         index += 1;
     return arr
 
@@ -77,20 +77,28 @@ def epsilon_helper(arr, name, num):
 
     out.write('\\end{tabular}\n\n')
 
-    iterations_graphic = name + '_epsilon_iterations.png'
-    out.write('\\includegraphics{' + iterations_graphic + '}')
-
     str_nodes = []
     for i in range(1, 7):
         str_nodes.append(i)
 
-    grapthic_helper(iterations_graphic, str_nodes, iterations)
+    # iteration graphic
+    iterations_graphic = name + '_epsilon_iterations.png'
+    out.write('\\includegraphics{' + iterations_graphic + '}\n')
+
+    grapthic_helper(iterations_graphic, str_nodes, iterations, 'epsilon, 10^-x', 'k, количество шагов')
+
+    # delta graphic
+    deltas_graphic = name + '_epsilon_deltas.png'
+    out.write('\\includegraphics{' + deltas_graphic + '}\n')
+
+    grapthic_helper(deltas_graphic, str_nodes, deltas, 'epsilon, 10^-x', 'delta')
 
 def dimension():
     arr = read_form_file('dimension.in');
     dimension_helper(arr, 'jacobi', 0)
     dimension_helper(arr, 'seidel', 1)
     dimension_helper(arr, 'relaxation', 2)
+    dimension_helper(arr, 'thomas', 3)
 
 def dimension_helper(arr, name, num):
     out = open('./tex/' + name + '_dimension__gen.tex', 'w')
@@ -115,10 +123,17 @@ def dimension_helper(arr, name, num):
 
     out.write('\\end{tabular}\n\n')
 
+    # iteration graphic
     iterations_graphic = name + '_dimension_iterations.png'
-    out.write('\\includegraphics{' + iterations_graphic + '}')
+    out.write('\\includegraphics{' + iterations_graphic + '}\n')
 
-    grapthic_helper(iterations_graphic, header, iterations)
+    grapthic_helper(iterations_graphic, header, iterations, 'N', 'k, количество шагов')
+
+    # delta graphic
+    deltas_graphic = name + '_dimension_deltas.png'
+    out.write('\\includegraphics{' + deltas_graphic + '}\n')
+
+    grapthic_helper(deltas_graphic, header, deltas, 'N', 'delta')
 
 def omega():
     arr = read_form_file('omega.in');
@@ -147,12 +162,19 @@ def omega_helper(arr):
 
     out.write('\\end{tabular}\n\n')
 
+    # iteration graphic
     iterations_graphic = 'omega_iterations.png'
-    out.write('\\includegraphics{' + iterations_graphic + '}')
+    out.write('\\includegraphics{' + iterations_graphic + '}\n')
 
-    grapthic_helper(iterations_graphic, header, iterations)
+    grapthic_helper(iterations_graphic, header, iterations, 'omega', 'k, количество шагов')
 
-def grapthic_helper(file_name, str_nodes, str_values):
+    # delta graphic
+    deltas_graphic = 'omega_deltas.png'
+    out.write('\\includegraphics{' + deltas_graphic + '}\n')
+
+    grapthic_helper(deltas_graphic, header, deltas, 'omega', 'delta')
+
+def grapthic_helper(file_name, str_nodes, str_values, x_label = 'x', y_label = 'y'):
     nodes = []
     for node in str_nodes:
         nodes.append(float(node))
@@ -163,6 +185,8 @@ def grapthic_helper(file_name, str_nodes, str_values):
 
     plt.cla()
     plt.clf()
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
     plt.plot(nodes, values, 'b-')
     plt.savefig('./tex/' + file_name)
 

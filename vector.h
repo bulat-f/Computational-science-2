@@ -44,6 +44,7 @@ namespace KFU
 			void resize(int);
 			void swap(int, int);
 			void generate();
+			void true_solution();
 
 			Vector& swap(Vector&);
 
@@ -151,6 +152,15 @@ namespace KFU
 		for (int i = 0; i < size(); i++)
 		{
 			values[i] = helpers::f(i, size() + 1) * pow(helpers::h(size() + 1), 2);
+		}
+	}
+
+	template <class type>
+	void Vector<type>::true_solution()
+	{
+		for (int i = 0; i < size(); i++)
+		{
+			values[i] = helpers::u(i * helpers::h(size() + 1));
 		}
 	}
 

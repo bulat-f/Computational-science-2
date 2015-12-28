@@ -26,6 +26,7 @@ namespace KFU
 			void swap_lines(int, int);
 
 			Vector<double> solve();
+			Vector<double> true_solution();
 			Vector<double> jacobi(double = 1e-5);
 			Vector<double> seidel(double = 1e-5);
 			Vector<double> relaxation(double = 1e-5, double = 1.5);

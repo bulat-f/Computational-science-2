@@ -1,6 +1,7 @@
 # vim
 *.swp
 ~*
+*~
 
 # sources compiling results
 main

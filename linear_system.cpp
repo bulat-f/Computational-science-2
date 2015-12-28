@@ -97,6 +97,14 @@ namespace KFU
 		return result;
 	}
 
+	Vector<double> LinearSystem::true_solution()
+	{
+		const int size = variables();
+		Vector<double> solution(size);
+		solution.true_solution();
+		return solution;
+	}
+
 	Vector<double> LinearSystem::jacobi(double eps)
 	{
 		const int size = variables();
